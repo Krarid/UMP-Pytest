@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.select import Select
+import time
 
 driver = webdriver.Chrome()
 
@@ -24,5 +26,30 @@ def login(username = "Demo", password = "0000"):
 
     # Click on login button
     loginButton.click()
+
+def createAccount(email = "javier.melendez@fyware.com"):
+
+    # Locate email textfield
+    emailTextField = driver.find_element(By.XPATH, "//input[@type='email']")
+
+    # Send email
+    emailTextField.send_keys(email)
+
+    # Locate dropdowns: type of account and organization
+    select = driver.find_elements(By.XPATH, "//select")
+
+    # Select the type of account
+    Select(select[0]).select_by_index(1)
+
+    # Select the organization
+    Select(select[1]).select_by_index(1)
+
+    # Select Create button
+    createButton = driver.find_element(By.XPATH, "//div/div/div[2]/div[5]/button")
+
+    # Click on Create button
+    createButton.click()
     
 login()
+time.sleep(1)
+createAccount()
