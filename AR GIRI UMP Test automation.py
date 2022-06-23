@@ -77,6 +77,13 @@ def deleteAccount():
     # Click on trash button
     trashButton.click()
 
+def organizationManagement():
+    # Locate Organization Management tab
+    organizationManagement = driver.find_element(By.XPATH, "//div/div/div[2]/nav/div/ul/li[2]/a")
+
+    # Click on organization management
+    organizationManagement.click()
+
 login()
 time.sleep(1)
 createAccount()
@@ -86,3 +93,5 @@ time.sleep(2)
 resetPassword()
 time.sleep(1)
 deleteAccount()
+time.sleep(1)
+organizationManagement()
