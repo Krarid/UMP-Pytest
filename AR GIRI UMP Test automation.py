@@ -84,6 +84,31 @@ def organizationManagement():
     # Click on organization management
     organizationManagement.click()
 
+def createOrganization(organization = "Test", domain = "test.com"):
+    # Locate organization textfield
+    organizationTextField = driver.find_element(By.XPATH, "//input[@id='orgName']")
+
+    # Send organization
+    organizationTextField.send_keys(organization)
+
+    # Locate domain textfield
+    domainTextField = driver.find_element(By.XPATH, "//input[@id='orgDomain']")
+
+    # Send domain
+    domainTextField.send_keys(domain)
+
+    # Locate button to create organization
+    createOrganization = driver.find_element(By.XPATH, "//button[@id='CreateDomainBtn']")
+
+    # Click on create organization
+    createOrganization.click()
+
+    time.sleep(1)
+    
+    # Locate Ok button on pop up
+    okButton = driver.find_element(By.XPATH, "//button[@data-dismiss='modal']")
+    okButton.click()
+
 login()
 time.sleep(1)
 createAccount()
@@ -95,3 +120,5 @@ time.sleep(1)
 deleteAccount()
 time.sleep(1)
 organizationManagement()
+time.sleep(1)
+createOrganization()
