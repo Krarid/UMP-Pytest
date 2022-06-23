@@ -133,6 +133,31 @@ def addWorkplaces():
     okButton = driver.find_element(By.XPATH, "//button[@data-dismiss='modal']")
     okButton.click()
 
+def deleteOrganization():
+    # Locate trash button
+    trashButton = driver.find_element(By.XPATH, "//div[@index='0']/div[7]/button")
+
+    # Click on trash button
+    trashButton.click()
+
+    time.sleep(1)
+
+    # Locate Remove button
+    removeButton = driver.find_element(By.XPATH, "//button[@class='btn btn-danger']")
+
+    # Click on remove button
+    removeButton.click()
+
+    # Locate search textfield
+    searchTextField = driver.find_element(By.XPATH, "//input[@id='Search']")
+
+    # Clear textfield
+    time.sleep(1)
+
+    searchTextField.clear()
+    
+    searchTextField.send_keys(" " + Keys.BACKSPACE)
+
 login()
 time.sleep(1)
 createAccount()
@@ -148,5 +173,7 @@ time.sleep(1)
 createOrganization()
 time.sleep(1)
 searchOrganization()
-time.sleep(2)
+time.sleep(1)
 addWorkplaces()
+time.sleep(1)
+deleteOrganization()
