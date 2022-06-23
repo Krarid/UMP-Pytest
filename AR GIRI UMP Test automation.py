@@ -60,16 +60,23 @@ def searchAccount(email = "javier.melendez@fyware.com"):
     searchTextField.send_keys(email + Keys.ENTER)
 
 def resetPassword():
-    # Locate trash button
+    # Locate reset button
     resetPasswordButton = driver.find_element(By.XPATH, "//div[@index=0]/div/div[4]/button")
 
-    # Click on trash button
+    # Click on reset button
     resetPasswordButton.click()
 
     # Locate cancel button on pop up
     cancelButton = driver.find_element(By.XPATH, "//button[@data-dismiss='modal']")
     cancelButton.click()
-    
+
+def deleteAccount():
+    # Locate trash button
+    trashButton = driver.find_element(By.XPATH, "//div[@index=0]/div/div[5]/button")
+
+    # Click on trash button
+    trashButton.click()
+
 login()
 time.sleep(1)
 createAccount()
@@ -77,3 +84,5 @@ time.sleep(1)
 searchAccount()
 time.sleep(2)
 resetPassword()
+time.sleep(1)
+deleteAccount()
