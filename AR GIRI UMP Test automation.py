@@ -42,6 +42,8 @@ def createAccount(email = "javier.melendez@fyware.com", typeAccount="manager"):
     # Select the type of account
     Select(select[0]).select_by_value("manager")
 
+    time.sleep(1)
+
     # Select the organization
     Select(select[1]).select_by_index(1)
 
@@ -115,7 +117,21 @@ def searchOrganization(organization = "Test"):
     searchTextField = driver.find_element(By.XPATH, "//input[@id='Search']")
 
     # Send email
-    searchTextField.send_keys(organization + Keys.ENTER)
+    searchTextField.send_keys(organization)
+
+def addWorkplaces():
+
+    # Locate button to add 10 workplaces
+    addWorkplaceButton = driver.find_element(By.XPATH, "//div[@index='0']/div[4]/div/button")
+
+    # Click on button to add 10 workplaces
+    addWorkplaceButton.click()
+
+    time.sleep(1)
+
+    # Locate Ok button on pop up
+    okButton = driver.find_element(By.XPATH, "//button[@data-dismiss='modal']")
+    okButton.click()
 
 login()
 time.sleep(1)
@@ -132,3 +148,5 @@ time.sleep(1)
 createOrganization()
 time.sleep(1)
 searchOrganization()
+time.sleep(2)
+addWorkplaces()
