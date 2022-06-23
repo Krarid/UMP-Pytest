@@ -28,7 +28,7 @@ def login(username = "Demo", password = "0000"):
     # Click on login button
     loginButton.click()
 
-def createAccount(email = "javier.melendez@fyware.com"):
+def createAccount(email = "javier.melendez@fyware.com", typeAccount="manager"):
 
     # Locate email textfield
     emailTextField = driver.find_element(By.XPATH, "//input[@type='email']")
@@ -40,7 +40,7 @@ def createAccount(email = "javier.melendez@fyware.com"):
     select = driver.find_elements(By.XPATH, "//select")
 
     # Select the type of account
-    Select(select[0]).select_by_index(1)
+    Select(select[0]).select_by_value("manager")
 
     # Select the organization
     Select(select[1]).select_by_index(1)
