@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.keys import Keys
 import time
 
 driver = webdriver.Chrome()
@@ -49,7 +50,17 @@ def createAccount(email = "javier.melendez@fyware.com"):
 
     # Click on Create button
     createButton.click()
+
+def searchAccount(email = "javier.melendez@fyware.com"):
+
+    # Locate search textfield
+    searchTextField = driver.find_element(By.XPATH, "//input[@id='Search']")
+
+    # Send email
+    searchTextField.send_keys(email + Keys.ENTER)
     
 login()
 time.sleep(1)
 createAccount()
+time.sleep(1)
+searchAccount()
