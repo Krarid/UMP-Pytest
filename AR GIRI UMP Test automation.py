@@ -158,6 +158,13 @@ def deleteOrganization():
     
     searchTextField.send_keys(" " + Keys.BACKSPACE)
 
+def customizeGiriMobileApp():
+    # Locate Organization Management tab
+    customizeGiriMobileApp = driver.find_element(By.XPATH, "//div/div/div[2]/nav/div/ul/li[3]/a")
+
+    # Click on organization management
+    customizeGiriMobileApp.click()
+
 login()
 time.sleep(1)
 createAccount()
@@ -177,3 +184,5 @@ time.sleep(1)
 addWorkplaces()
 time.sleep(1)
 deleteOrganization()
+time.sleep(1)
+customizeGiriMobileApp()
