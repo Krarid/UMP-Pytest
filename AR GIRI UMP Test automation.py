@@ -4,6 +4,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import DesiredCapabilities
 import time
+import os
 
 #Bypass "Your connection is not private"
 options = webdriver.ChromeOptions()
@@ -226,6 +227,13 @@ def deleteARObject():
     dontDelete = driver.find_element(By.XPATH, "//div[@class='modal-content']/div[2]/button[2]")
     dontDelete.click()
 
+def uploadIndustrialIcon():
+
+    uploadIcon = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
+
+    uploadIcon.send_keys(os.getcwd() + '/' + 'wrench_ios')
+    
+
 login()
 time.sleep(3)
 createAccount()
@@ -253,3 +261,4 @@ activeARObject()
 time.sleep(1)
 deleteARObject()
 time.sleep(1)
+uploadIndustrialIcon()
