@@ -209,6 +209,23 @@ def activeARObject():
     # Click on toggle button
     toggleButton.click()
 
+def deleteARObject():
+
+    # Locate trash button
+    trashButton = driver.find_element(By.XPATH, "//div[2]/div[4]/img")
+
+    trashButton.click()
+
+    time.sleep(1)
+
+    # Delete the icon
+    # deleteAnyway = driver.find_element(By.XPATH, "//div[@class='modal-content']/div[2]/button[1]")
+    # deleteAnyway.click()
+
+    # Don't delete the icon
+    dontDelete = driver.find_element(By.XPATH, "//div[@class='modal-content']/div[2]/button[2]")
+    dontDelete.click()
+
 login()
 time.sleep(3)
 createAccount()
