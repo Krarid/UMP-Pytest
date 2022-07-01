@@ -117,21 +117,17 @@ def createOrganization(organization = "Test", domain = "test.com"):
     okButton = driver.find_element(By.XPATH, "//button[@data-dismiss='modal']")
     okButton.click()
 
-def searchOrganization(organization = "Test"):
-
-    # Locate search textfield
-    searchTextField = driver.find_element(By.XPATH, "//input[@id='Search']")
-
-    # Send email
-    searchTextField.send_keys(organization)
-
 def addWorkplaces():
 
     # Locate button to add 10 workplaces
-    addWorkplaceButton = driver.find_element(By.XPATH, "//div[@index='0']/div[4]/div/button")
+    addWorkplaceButton = driver.find_elements(By.XPATH, "//div/div[4]/div/button")
+
+    last = len(addWorkplaceButton) - 1
+
+    addWorkplaceButton[last].click()
 
     # Click on button to add 10 workplaces
-    addWorkplaceButton.click()
+    # addWorkplaceButton.click()
 
     time.sleep(1)
 
