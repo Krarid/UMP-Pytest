@@ -152,25 +152,15 @@ def deleteOrganization():
     # Click on remove button
     removeButton.click()
 
-    # Locate search textfield
-    searchTextField = driver.find_element(By.XPATH, "//input[@id='Search']")
-
-    # Clear textfield
-    time.sleep(1)
-
-    searchTextField.clear()
-    
-    searchTextField.send_keys(" " + Keys.BACKSPACE)
-
 def customizeGiriMobileApp():
     # Locate Organization Management tab
-    customizeGiriMobileApp = driver.find_element(By.XPATH, "//div/div/div[2]/nav/div/ul/li[3]/a")
+    customizeGiriMobileApp = driver.find_element(By.XPATH, "//a[contains(text(), 'Customize Giri Mobile App')]")
 
     # Click on organization management
     customizeGiriMobileApp.click()
 
 login()
-time.sleep(1)
+time.sleep(3)
 createAccount()
 time.sleep(1)
 searchAccount()
