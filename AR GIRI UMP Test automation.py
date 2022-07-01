@@ -2,13 +2,19 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import DesiredCapabilities
 import time
 
-driver = webdriver.Chrome()
+#Bypass "Your connection is not private"
+options = webdriver.ChromeOptions()
+options.add_argument('--allow-insecure-localhost') # differ on driver version. can ignore. 
+caps = options.to_capabilities()
+caps["acceptInsecureCerts"] = True
+driver = webdriver.Chrome(desired_capabilities=caps)
 
-driver.get("https://ar-giri.rocks")
+driver.get("https://35.219.183.240/")
 
-def login(username = "Demo", password = "0000"):
+def login(username = "iconsAdmin", password = "0000"):
 
     # Locate username textfield
     usernameTextField = driver.find_element(By.XPATH, "//input[1]")
@@ -81,7 +87,7 @@ def deleteAccount():
 
 def organizationManagement():
     # Locate Organization Management tab
-    organizationManagement = driver.find_element(By.XPATH, "//div/div/div[2]/nav/div/ul/li[2]/a")
+    organizationManagement = driver.find_element(By.XPATH, "//a[contains(text(), 'Organization Management')]")
 
     # Click on organization management
     organizationManagement.click()
@@ -111,21 +117,17 @@ def createOrganization(organization = "Test", domain = "test.com"):
     okButton = driver.find_element(By.XPATH, "//button[@data-dismiss='modal']")
     okButton.click()
 
-def searchOrganization(organization = "Test"):
-
-    # Locate search textfield
-    searchTextField = driver.find_element(By.XPATH, "//input[@id='Search']")
-
-    # Send email
-    searchTextField.send_keys(organization)
-
 def addWorkplaces():
 
     # Locate button to add 10 workplaces
-    addWorkplaceButton = driver.find_element(By.XPATH, "//div[@index='0']/div[4]/div/button")
+    addWorkplaceButton = driver.find_elements(By.XPATH, "//div/div[4]/div/button")
+
+    last = len(addWorkplaceButton) - 1
+
+    addWorkplaceButton[last].click()
 
     # Click on button to add 10 workplaces
-    addWorkplaceButton.click()
+    # addWorkplaceButton.click()
 
     time.sleep(1)
 
@@ -135,10 +137,12 @@ def addWorkplaces():
 
 def deleteOrganization():
     # Locate trash button
-    trashButton = driver.find_element(By.XPATH, "//div[@index='0']/div[7]/button")
+    trashButton = driver.find_elements(By.XPATH, "//div/div[6]/button")
+
+    last = len(trashButton) - 1
 
     # Click on trash button
-    trashButton.click()
+    trashButton[last].click()
 
     time.sleep(1)
 
@@ -148,18 +152,82 @@ def deleteOrganization():
     # Click on remove button
     removeButton.click()
 
-    # Locate search textfield
-    searchTextField = driver.find_element(By.XPATH, "//input[@id='Search']")
+def customizeGiriMobileApp():
+    # Locate Organization Management tab
+    customizeGiriMobileApp = driver.find_element(By.XPATH, "//a[contains(text(), 'Customize Giri Mobile App')]")
 
-    # Clear textfield
+    # Click on organization management
+    customizeGiriMobileApp.click()
+
+def createNewPattern(defaultLanguage = 0, pattern = [ ["Empty"], ["Falsch"], ["Üres"], ["Vacio"], ["Pusty"] ] ):
+    # Locate the Create new Pattern button
+    createPatternButton = driver.find_element(By.XPATH, "//div/div/div[2]/div[4]/div/div[2]/div[2]/button")
+
+    # Click on button
+    createPatternButton.click()
+
     time.sleep(1)
 
-    searchTextField.clear()
-    
-    searchTextField.send_keys(" " + Keys.BACKSPACE)
+    # Locate the radio button
+    radio = driver.find_element(By.XPATH, "//input[@type='radio'][@value='" + str(defaultLanguage) + "']")
+
+    # Click on radio button
+    radio.click()
+
+    # Locate Add mediatitle button
+    mediatitleButton = driver.find_element(By.XPATH, "//button[text()=' + Add mediatitle ']")
+
+    # Click on mediatitle Button
+    for i in range( len(pattern[0]) - 1 ):
+        time.sleep(1)
+        mediatitleButton.click()
+
+    # Fill the mediatitle text fields
+    for j in range( len(pattern[0]) ):
+        for i in range(1,6):
+            mediatitleTextField = driver.find_element(By.XPATH,"//div[" + str(i) + "]/div[" + str(3 + j) + "]/input")
+            mediatitleTextField.send_keys( pattern[i-1][j] )
+
+    # Locate CONFIRM button
+    confirmButton = driver.find_element(By.XPATH, "//button[text()=' CONFIRM ']")
+
+    # Click on CONFIRM button
+    confirmButton.click()
+
+def ARObjects():
+    # Locate the ARObjects tab
+    arObjects = driver.find_element(By.XPATH, "//a[contains(text(), 'AR Objects')]")
+
+    # Click on AR Objects tab
+    arObjects.click()
+
+def activeARObject():
+
+    # Locate the toggle buton
+    toggleButton = driver.find_element(By.XPATH, "//div[2]/div[3]/label/span")
+
+    # Click on toggle button
+    toggleButton.click()
+
+def deleteARObject():
+
+    # Locate trash button
+    trashButton = driver.find_element(By.XPATH, "//div[2]/div[4]/img")
+
+    trashButton.click()
+
+    time.sleep(1)
+
+    # Delete the icon
+    # deleteAnyway = driver.find_element(By.XPATH, "//div[@class='modal-content']/div[2]/button[1]")
+    # deleteAnyway.click()
+
+    # Don't delete the icon
+    dontDelete = driver.find_element(By.XPATH, "//div[@class='modal-content']/div[2]/button[2]")
+    dontDelete.click()
 
 login()
-time.sleep(1)
+time.sleep(3)
 createAccount()
 time.sleep(1)
 searchAccount()
@@ -172,8 +240,16 @@ organizationManagement()
 time.sleep(1)
 createOrganization()
 time.sleep(1)
-searchOrganization()
-time.sleep(1)
 addWorkplaces()
 time.sleep(1)
 deleteOrganization()
+time.sleep(1)
+customizeGiriMobileApp()
+time.sleep(1)
+createNewPattern( 0, [ ["Empty", "Hola", "Adios", "QA"], ["Falsch", "Hola", "Adios", "QA"], ["Üres", "Hola", "Adios", "QA"], ["Vacio", "Hola", "Adios", "QA"], ["Pusty", "Hola", "Adios", "QA"] ] )
+ARObjects()
+time.sleep(1)
+activeARObject()
+time.sleep(1)
+deleteARObject()
+time.sleep(1)
