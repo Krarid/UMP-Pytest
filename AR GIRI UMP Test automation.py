@@ -194,6 +194,13 @@ def createNewPattern(defaultLanguage = 0, pattern = [ ["Empty"], ["Falsch"], ["Ã
     # Click on CONFIRM button
     confirmButton.click()
 
+def ARObjects():
+    # Locate the ARObjects tab
+    arObjects = driver.find_element(By.XPATH, "//a[contains(text(), 'AR Objects')]")
+
+    # Click on AR Objects tab
+    arObjects.click()
+
 login()
 time.sleep(3)
 createAccount()
