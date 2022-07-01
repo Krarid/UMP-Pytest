@@ -201,6 +201,14 @@ def ARObjects():
     # Click on AR Objects tab
     arObjects.click()
 
+def activeARObject():
+
+    # Locate the toggle buton
+    toggleButton = driver.find_element(By.XPATH, "//div[2]/div[3]/label/span")
+
+    # Click on toggle button
+    toggleButton.click()
+
 login()
 time.sleep(3)
 createAccount()
