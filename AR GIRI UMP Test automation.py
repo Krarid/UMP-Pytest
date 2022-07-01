@@ -159,6 +159,41 @@ def customizeGiriMobileApp():
     # Click on organization management
     customizeGiriMobileApp.click()
 
+def createNewPattern(defaultLanguage = 0, pattern = [ ["Empty"], ["Falsch"], ["Üres"], ["Vacio"], ["Pusty"] ] ):
+    # Locate the Create new Pattern button
+    createPatternButton = driver.find_element(By.XPATH, "//div/div/div[2]/div[4]/div/div[2]/div[2]/button")
+
+    # Click on button
+    createPatternButton.click()
+
+    time.sleep(1)
+
+    # Locate the radio button
+    radio = driver.find_element(By.XPATH, "//input[@type='radio'][@value='" + str(defaultLanguage) + "']")
+
+    # Click on radio button
+    radio.click()
+
+    # Locate Add mediatitle button
+    mediatitleButton = driver.find_element(By.XPATH, "//button[text()=' + Add mediatitle ']")
+
+    # Click on mediatitle Button
+    for i in range( len(pattern[0]) - 1 ):
+        time.sleep(1)
+        mediatitleButton.click()
+
+    # Fill the mediatitle text fields
+    for j in range( len(pattern[0]) ):
+        for i in range(1,6):
+            mediatitleTextField = driver.find_element(By.XPATH,"//div[" + str(i) + "]/div[" + str(3 + j) + "]/input")
+            mediatitleTextField.send_keys( pattern[i-1][j] )
+
+    # Locate CONFIRM button
+    confirmButton = driver.find_element(By.XPATH, "//button[text()=' CONFIRM ']")
+
+    # Click on CONFIRM button
+    confirmButton.click()
+
 login()
 time.sleep(3)
 createAccount()
