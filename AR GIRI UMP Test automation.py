@@ -137,10 +137,12 @@ def addWorkplaces():
 
 def deleteOrganization():
     # Locate trash button
-    trashButton = driver.find_element(By.XPATH, "//div[@index='0']/div[7]/button")
+    trashButton = driver.find_elements(By.XPATH, "//div/div[6]/button")
+
+    last = len(trashButton) - 1
 
     # Click on trash button
-    trashButton.click()
+    trashButton[last].click()
 
     time.sleep(1)
 
