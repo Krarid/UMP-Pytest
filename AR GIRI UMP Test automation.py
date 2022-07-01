@@ -2,13 +2,19 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import DesiredCapabilities
 import time
 
-driver = webdriver.Chrome()
+#Bypass "Your connection is not private"
+options = webdriver.ChromeOptions()
+options.add_argument('--allow-insecure-localhost') # differ on driver version. can ignore. 
+caps = options.to_capabilities()
+caps["acceptInsecureCerts"] = True
+driver = webdriver.Chrome(desired_capabilities=caps)
 
-driver.get("https://ar-giri.rocks")
+driver.get("https://35.219.183.240/")
 
-def login(username = "Demo", password = "0000"):
+def login(username = "iconsAdmin", password = "0000"):
 
     # Locate username textfield
     usernameTextField = driver.find_element(By.XPATH, "//input[1]")
