@@ -6,321 +6,356 @@ from selenium.webdriver import DesiredCapabilities
 import time
 import os
 
-#Bypass "Your connection is not private"
 options = webdriver.ChromeOptions()
 options.add_argument('--allow-insecure-localhost') # differ on driver version. can ignore. 
 caps = options.to_capabilities()
 caps["acceptInsecureCerts"] = True
 driver = webdriver.Chrome(desired_capabilities=caps)
 
-driver.get("https://35.219.183.240/")
+class UMPAutomation:
 
-def login(username = "iconsAdmin", password = "0000"):
-
-    # Locate username textfield
-    usernameTextField = driver.find_element(By.XPATH, "//input[1]")
-
-    # Send username
-    usernameTextField.send_keys(username)
-
-    # Locate password textfield
-    passwordTextField = driver.find_element(By.XPATH, "//input[2]")
-
-    # Send password
-    passwordTextField.send_keys(password)
-
-    # Locate login button
-    loginButton = driver.find_element(By.XPATH, "//button")
-
-    # Click on login button
-    loginButton.click()
-
-def createAccount(email = "javier.melendez@fyware.com", typeAccount="manager"):
-
-    # Locate email textfield
-    emailTextField = driver.find_element(By.XPATH, "//input[@type='email']")
-
-    # Send email
-    emailTextField.send_keys(email)
-
-    # Locate dropdowns: type of account and organization
-    select = driver.find_elements(By.XPATH, "//select")
-
-    # Select the type of account
-    Select(select[0]).select_by_value("manager")
-
-    time.sleep(1)
-
-    # Select the organization
-    Select(select[1]).select_by_index(1)
-
-    # Select Create button
-    createButton = driver.find_element(By.XPATH, "//div/div/div[2]/div[5]/button")
-
-    # Click on Create button
-    createButton.click()
-
-def searchAccount(email = "javier.melendez@fyware.com"):
-
-    # Locate search textfield
-    searchTextField = driver.find_element(By.XPATH, "//input[@id='Search']")
-
-    # Send email
-    searchTextField.send_keys(email + Keys.ENTER)
-
-def resetPassword():
-    # Locate reset button
-    resetPasswordButton = driver.find_element(By.XPATH, "//div[@index=0]/div/div[4]/button")
-
-    # Click on reset button
-    resetPasswordButton.click()
-
-    # Locate cancel button on pop up
-    cancelButton = driver.find_element(By.XPATH, "//button[@data-dismiss='modal']")
-    cancelButton.click()
-
-def deleteAccount():
-    # Locate trash button
-    trashButton = driver.find_element(By.XPATH, "//div[@index=0]/div/div[5]/button")
-
-    # Click on trash button
-    trashButton.click()
-
-def organizationManagement():
-    # Locate Organization Management tab
-    organizationManagement = driver.find_element(By.XPATH, "//a[contains(text(), 'Organization Management')]")
-
-    # Click on organization management
-    organizationManagement.click()
-
-def createOrganization(organization = "Test", domain = "test.com"):
-    # Locate organization textfield
-    organizationTextField = driver.find_element(By.XPATH, "//input[@id='orgName']")
-
-    # Send organization
-    organizationTextField.send_keys(organization)
-
-    # Locate domain textfield
-    domainTextField = driver.find_element(By.XPATH, "//input[@id='orgDomain']")
-
-    # Send domain
-    domainTextField.send_keys(domain)
-
-    # Locate button to create organization
-    createOrganization = driver.find_element(By.XPATH, "//button[@id='CreateDomainBtn']")
-
-    # Click on create organization
-    createOrganization.click()
-
-    time.sleep(1)
+    # Properties
+    url = "https://35.219.183.240/"
+    username = "iconsAdmin"
+    password = "0000"
+    email = "javier.melendez@fyware.com"
+    typeAccount = "manager"
+    organization = "Test"
+    domain = "test.com"
+    defaultLanguage = 0
+    pattern = [ ["Empty", "Hola", "Adios", "QA"], ["Falsch", "Hola", "Adios", "QA"], ["Üres", "Hola", "Adios", "QA"], ["Vacio", "Hola", "Adios", "QA"], ["Pusty", "Hola", "Adios", "QA"] ]
     
-    # Locate Ok button on pop up
-    okButton = driver.find_element(By.XPATH, "//button[@data-dismiss='modal']")
-    okButton.click()
+    def openChromeBrowser(self):
+        driver.get(self.url)
 
-def addWorkplaces():
+    def login(self):
+        # Locate username textfield
+        usernameTextField = driver.find_element(By.XPATH, "//input[1]")
 
-    # Locate button to add 10 workplaces
-    addWorkplaceButton = driver.find_elements(By.XPATH, "//div/div[4]/div/button")
+        # Send username
+        usernameTextField.send_keys(self.username)
 
-    last = len(addWorkplaceButton) - 1
+        # Locate password textfield
+        passwordTextField = driver.find_element(By.XPATH, "//input[2]")
 
-    addWorkplaceButton[last].click()
+        # Send password
+        passwordTextField.send_keys(self.password)
 
-    # Click on button to add 10 workplaces
-    # addWorkplaceButton.click()
+        # Locate login button
+        loginButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Login')]")
 
-    time.sleep(1)
+        # Click on login button
+        loginButton.click()
 
-    # Locate Ok button on pop up
-    okButton = driver.find_element(By.XPATH, "//button[@data-dismiss='modal']")
-    okButton.click()
+    def createAccount(self):
 
-def deleteOrganization():
-    # Locate trash button
-    trashButton = driver.find_elements(By.XPATH, "//div/div[6]/button")
+        # Locate email textfield
+        emailTextField = driver.find_element(By.XPATH, "//input[@type='email']")
 
-    last = len(trashButton) - 1
+        # Send email
+        emailTextField.send_keys(self.email)
 
-    # Click on trash button
-    trashButton[last].click()
+        # Locate dropdowns: type of account and organization
+        select = driver.find_elements(By.XPATH, "//select")
 
-    time.sleep(1)
+        # Select the type of account
+        Select(select[0]).select_by_value(self.typeAccount)
 
-    # Locate Remove button
-    removeButton = driver.find_element(By.XPATH, "//button[@class='btn btn-danger']")
-
-    # Click on remove button
-    removeButton.click()
-
-def customizeGiriMobileApp():
-    # Locate Organization Management tab
-    customizeGiriMobileApp = driver.find_element(By.XPATH, "//a[contains(text(), 'Customize Giri Mobile App')]")
-
-    # Click on organization management
-    customizeGiriMobileApp.click()
-
-def createNewPattern(defaultLanguage = 0, pattern = [ ["Empty"], ["Falsch"], ["Üres"], ["Vacio"], ["Pusty"] ] ):
-    # Locate the Create new Pattern button
-    createPatternButton = driver.find_element(By.XPATH, "//div/div/div[2]/div[4]/div/div[2]/div[2]/button")
-
-    # Click on button
-    createPatternButton.click()
-
-    time.sleep(1)
-
-    # Locate the radio button
-    radio = driver.find_element(By.XPATH, "//input[@type='radio'][@value='" + str(defaultLanguage) + "']")
-
-    # Click on radio button
-    radio.click()
-
-    # Locate Add mediatitle button
-    mediatitleButton = driver.find_element(By.XPATH, "//button[text()=' + Add mediatitle ']")
-
-    # Click on mediatitle Button
-    for i in range( len(pattern[0]) - 1 ):
         time.sleep(1)
-        mediatitleButton.click()
 
-    # Fill the mediatitle text fields
-    for j in range( len(pattern[0]) ):
-        for i in range(1,6):
-            mediatitleTextField = driver.find_element(By.XPATH,"//div[" + str(i) + "]/div[" + str(3 + j) + "]/input")
-            mediatitleTextField.send_keys( pattern[i-1][j] )
+        # Select the organization
+        Select(select[1]).select_by_index(1)
 
-    # Locate CONFIRM button
-    confirmButton = driver.find_element(By.XPATH, "//button[text()=' CONFIRM ']")
+        # Select Create button
+        createButton = driver.find_element(By.XPATH, "//button[text()='Create']")
 
-    # Click on CONFIRM button
-    confirmButton.click()
+        # Click on Create button
+        createButton.click()
 
-def ARObjects():
-    # Locate the ARObjects tab
-    arObjects = driver.find_element(By.XPATH, "//a[contains(text(), 'AR Objects')]")
+    def searchAccount(self):
 
-    # Click on AR Objects tab
-    arObjects.click()
+        # Locate search textfield
+        searchTextField = driver.find_element(By.XPATH, "//input[@id='Search']")
 
-def activeARObject():
+        # Send email
+        searchTextField.send_keys(self.email + Keys.ENTER)
 
-    # Locate the toggle buton
-    toggleButton = driver.find_element(By.XPATH, "//div[2]/div[3]/label/span")
+    def resetPassword(self):
+        # Locate reset button
+        resetPasswordButton = driver.find_element(By.XPATH, "//div[@index=0]/div/div[4]/button")
 
-    # Click on toggle button
-    toggleButton.click()
+        # Click on reset button
+        resetPasswordButton.click()
 
-def deleteARObject():
+        # Locate cancel button on pop up
+        cancelButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Cancel')]")
+        cancelButton.click()
 
-    # Locate trash button
-    trashButton = driver.find_element(By.XPATH, "//div[2]/div[4]/img")
+    def deleteAccount(self):
+        # Locate trash button
+        trashButton = driver.find_element(By.XPATH, "//div[@index=0]/div/div[5]/button")
 
-    trashButton.click()
+        # Click on trash button
+        trashButton.click()
 
-    time.sleep(1)
+    def organizationManagement(self):
+        # Locate Organization Management tab
+        organizationManagement = driver.find_element(By.XPATH, "//a[contains(text(), 'Organization Management')]")
 
-    # Delete the icon
-    # deleteAnyway = driver.find_element(By.XPATH, "//div[@class='modal-content']/div[2]/button[1]")
-    # deleteAnyway.click()
+        # Click on organization management
+        organizationManagement.click()
 
-    # Don't delete the icon
-    dontDelete = driver.find_element(By.XPATH, "//div[@class='modal-content']/div[2]/button[2]")
-    dontDelete.click()
+    def createOrganization(self):
+        # Locate organization textfield
+        organizationTextField = driver.find_element(By.XPATH, "//input[@id='orgName']")
 
-def uploadARObject():
+        # Send organization
+        organizationTextField.send_keys(self.organization)
 
-    # Find input file to upload the AR Object
-    uploadARObject = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
+        # Locate domain textfield
+        domainTextField = driver.find_element(By.XPATH, "//input[@id='orgDomain']")
 
-    # Locate the AR Object resource from absolute path
-    uploadARObject.send_keys(os.getcwd() + '/' + 'wrench_ios')
+        # Send domain
+        domainTextField.send_keys(self.domain)
 
-    time.sleep(1)
+        # Locate button to create organization
+        createOrganization = driver.find_element(By.XPATH, "//button[@id='CreateDomainBtn']")
 
-    # Clic on OK button to confirm the action
-    okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
+        # Click on create organization
+        createOrganization.click()
 
-    okButton.click()
+        time.sleep(1)
+        
+        # Locate Ok button on pop up
+        okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
+        okButton.click()
 
-def industrialIcons():
-    # Find the industrial icons tab by text
-    industrialIcons = driver.find_element(By.XPATH, "//a[contains(text(), 'Industrial Icons')]")
+    def addWorkplaces(self):
 
-    # Redirect to industrialIcons
-    industrialIcons.click()
+        # Locate the last button to add 10 workplaces
+        addWorkplaceButton = driver.find_elements(By.XPATH, "//button[contains(text(), 'Add 10')]")
 
-def uploadIndustrialIcon():
-    # Find input file to upload the AR Object
-    uploadIndustrialIcon = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
+        last = len(addWorkplaceButton) - 1
 
-    # Locate the AR Object resource from absolute path
-    uploadIndustrialIcon.send_keys(os.getcwd() + '/' + 'Forbidden 01.png')
+        # Click on button to add 10 workplaces
+        addWorkplaceButton[last].click()
 
-    time.sleep(2)
+        time.sleep(1)
 
-    # Clic on OK button to confirm the action
-    okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
+        # Locate Ok button on pop up
+        okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
+        okButton.click()
 
-    okButton.click()
+    def deleteOrganization(self):
+        # Locate trash button
+        trashButton = driver.find_elements(By.XPATH, "//div/div[6]/button")
 
-def enableIndustrialIcon():
+        last = len(trashButton) - 1
 
-    # Locate the toggle buton
-    toggleButtonList = driver.find_elements(By.XPATH, "//div/div[4]/label/span")
+        # Click on trash button
+        trashButton[last].click()
 
-    last = len(toggleButtonList) - 1
-    
-    # Click on the last toggle button
-    toggleButtonList[last].click()
+        time.sleep(1)
 
-def deleteIndustrialIcon():
-    # Locate the trash buton
-    trashButtonList = driver.find_elements(By.XPATH, "//div/div[5]/img")
+        # Locate Remove button
+        removeButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Remove')]")
 
-    last = len(trashButtonList) - 1
-    
-    # Click on the last trash button
-    trashButtonList[last].click()
+        # Click on remove button
+        removeButton.click()
 
-    # Locate the Delete anyway
-    deleteButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Delete anyway')]")
+    def customizeGiriMobileApp(self):
+        # Locate Organization Management tab
+        customizeGiriMobileApp = driver.find_element(By.XPATH, "//a[contains(text(), 'Customize Giri Mobile App')]")
 
-    # Click on Delete button
-    deleteButton.click()
+        # Click on organization management
+        customizeGiriMobileApp.click()
 
-login()
-time.sleep(3)    
-createAccount()
+    def createNewPattern(self):
+        # Locate the Create new Pattern button
+        createPatternButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Create new Pattern')]")
+
+        # Click on button
+        createPatternButton.click()
+
+        time.sleep(1)
+
+        # Locate the radio button
+        radio = driver.find_element(By.XPATH, "//input[@type='radio'][@value='" + str(self.defaultLanguage) + "']")
+
+        # Click on radio button
+        radio.click()
+
+        # Locate Add mediatitle button
+        mediatitleButton = driver.find_element(By.XPATH, "//button[contains(text(), '+ Add mediatitle')]")
+
+        # Click on mediatitle Button
+        for i in range( len(self.pattern[0]) - 1 ):
+            time.sleep(1)
+            mediatitleButton.click()
+
+        # Fill the mediatitle text fields
+        for j in range( len(self.pattern[0]) ):
+            for i in range(1,6):
+                mediatitleTextField = driver.find_element(By.XPATH,"//div[" + str(i) + "]/div[" + str(3 + j) + "]/input")
+                mediatitleTextField.send_keys( self.pattern[i-1][j] )
+
+        # Locate CONFIRM button
+        confirmButton = driver.find_element(By.XPATH, "//button[contains(text(), 'CONFIRM')]")
+
+        # Click on CONFIRM button
+        confirmButton.click()
+
+    def ARObjects(self):
+        # Locate the ARObjects tab
+        arObjects = driver.find_element(By.XPATH, "//a[contains(text(), 'AR Objects')]")
+
+        # Click on AR Objects tab
+        arObjects.click()
+
+    def enableARObject(self):
+
+        # Locate the toggle buton
+        toggleButton = driver.find_elements(By.XPATH, "//div/div[3]/label/span")
+
+        last = len(toggleButton) - 1
+
+        # Click on toggle button
+        toggleButton[last].click()
+
+    def deleteARObject(self):
+
+        # Locate the trash buton
+        trashButtonList = driver.find_elements(By.XPATH, "//div/div[4]/img")
+
+        last = len(trashButtonList) - 1
+        
+        # Click on the last trash button
+        trashButtonList[last].click()
+
+        time.sleep(1)
+
+        # Locate the Delete anyway
+        deleteButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Delete anyway')]")
+
+        # Click on Delete button
+        deleteButton.click()
+
+    def uploadARObject(self):
+
+        # Find input file to upload the AR Object
+        uploadARObject = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
+
+        # Locate the AR Object resource from absolute path
+        uploadARObject.send_keys(os.getcwd() + '/' + 'wrench_ios')
+
+        time.sleep(1)
+
+        # Clic on OK button to confirm the action
+        okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
+
+        okButton.click()
+
+    def industrialIcons(self):
+        # Find the industrial icons tab by text
+        industrialIcons = driver.find_element(By.XPATH, "//a[contains(text(), 'Industrial Icons')]")
+
+        # Redirect to industrialIcons
+        industrialIcons.click()
+
+    def uploadIndustrialIcon(self):
+        # Find input file to upload the AR Object
+        uploadIndustrialIcon = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
+
+        # Locate the AR Object resource from absolute path
+        uploadIndustrialIcon.send_keys(os.getcwd() + '/' + 'Forbidden 01.png')
+
+        time.sleep(2)
+
+        # Clic on OK button to confirm the action
+        okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
+
+        okButton.click()
+
+    def enableIndustrialIcon(self):
+
+        # Locate the toggle buton
+        toggleButtonList = driver.find_elements(By.XPATH, "//div/div[4]/label/span")
+
+        last = len(toggleButtonList) - 1
+        
+        # Click on the last toggle button
+        toggleButtonList[last].click()
+
+    def deleteIndustrialIcon(self):
+        # Locate the trash buton
+        trashButtonList = driver.find_elements(By.XPATH, "//div/div[5]/img")
+
+        last = len(trashButtonList) - 1
+        
+        # Click on the last trash button
+        trashButtonList[last].click()
+
+        # Locate the Delete anyway
+        deleteButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Delete anyway')]")
+
+        # Click on Delete button
+        deleteButton.click()
+
+test = UMPAutomation()
+
+test.openChromeBrowser()
+
+test.login()
+time.sleep(3)
+
+test.createAccount()
 time.sleep(1)
-searchAccount()
+
+test.searchAccount()
 time.sleep(2)
-resetPassword()
+
+test.resetPassword()
 time.sleep(1)
-deleteAccount()
+
+test.deleteAccount()
 time.sleep(1)
-organizationManagement()
+
+test.organizationManagement()
 time.sleep(1)
-createOrganization()
+
+test.createOrganization()
 time.sleep(1)
-addWorkplaces()
+
+test.addWorkplaces()
 time.sleep(1)
-deleteOrganization()
+
+test.deleteOrganization()
 time.sleep(1)
-customizeGiriMobileApp()
+
+test.customizeGiriMobileApp()
 time.sleep(1)
-createNewPattern( 0, [ ["Empty", "Hola", "Adios", "QA"], ["Falsch", "Hola", "Adios", "QA"], ["Üres", "Hola", "Adios", "QA"], ["Vacio", "Hola", "Adios", "QA"], ["Pusty", "Hola", "Adios", "QA"] ] )
-ARObjects()
+
+test.createNewPattern()
+
+test.ARObjects()
 time.sleep(1)
-activeARObject()
+
+test.uploadARObject()
 time.sleep(1)
-deleteARObject()
+
+test.deleteARObject()
 time.sleep(1)
-uploadARObject()
+
+test.enableARObject()
 time.sleep(1)
-industrialIcons()
+
+test.industrialIcons()
 time.sleep(1)
-uploadIndustrialIcon()
+
+test.uploadIndustrialIcon()
 time.sleep(1)
-enableIndustrialIcon()
+
+test.enableIndustrialIcon()
 time.sleep(1)
-deleteIndustrialIcon()
+
+test.deleteIndustrialIcon()
