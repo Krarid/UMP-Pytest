@@ -256,7 +256,7 @@ def uploadIndustrialIcon():
     # Locate the AR Object resource from absolute path
     uploadIndustrialIcon.send_keys(os.getcwd() + '/' + 'Forbidden 01.png')
 
-    time.sleep(1)
+    time.sleep(2)
 
     # Clic on OK button to confirm the action
     okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
