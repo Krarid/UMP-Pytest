@@ -263,6 +263,16 @@ def uploadIndustrialIcon():
 
     okButton.click()
 
+def enableIndustrialIcon():
+
+    # Locate the toggle buton
+    toggleButtonList = driver.find_elements(By.XPATH, "//div/div[4]/label/span")
+
+    last = len(toggleButtonList) - 1
+    
+    # Click on the last toggle button
+    toggleButtonList[last].click()
+
 login()
 time.sleep(3)
 createAccount()
