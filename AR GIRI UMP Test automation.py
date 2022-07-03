@@ -202,13 +202,15 @@ def ARObjects():
     # Click on AR Objects tab
     arObjects.click()
 
-def activeARObject():
+def enableARObject():
 
     # Locate the toggle buton
-    toggleButton = driver.find_element(By.XPATH, "//div[2]/div[3]/label/span")
+    toggleButton = driver.find_elements(By.XPATH, "//div/div[3]/label/span")
+
+    last = len(toggleButton) - 1
 
     # Click on toggle button
-    toggleButton.click()
+    toggleButton[last].click()
 
 def deleteARObject():
 
@@ -312,11 +314,11 @@ time.sleep(1)
 createNewPattern( 0, [ ["Empty", "Hola", "Adios", "QA"], ["Falsch", "Hola", "Adios", "QA"], ["Üres", "Hola", "Adios", "QA"], ["Vacio", "Hola", "Adios", "QA"], ["Pusty", "Hola", "Adios", "QA"] ] )
 ARObjects()
 time.sleep(1)
-activeARObject()
-time.sleep(1)
 uploadARObject()
 time.sleep(1)
 deleteARObject()
+time.sleep(1)
+enableARObject()
 time.sleep(1)
 industrialIcons()
 time.sleep(1)
