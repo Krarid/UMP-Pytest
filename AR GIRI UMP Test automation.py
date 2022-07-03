@@ -227,7 +227,7 @@ def deleteARObject():
     dontDelete = driver.find_element(By.XPATH, "//div[@class='modal-content']/div[2]/button[2]")
     dontDelete.click()
 
-def uploadIndustrialIcon():
+def uploadARObject():
 
     # Find input file to upload the AR Object
     uploadIcon = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
