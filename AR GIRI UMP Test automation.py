@@ -248,6 +248,21 @@ def industrialIcons():
 
     # Redirect to industrialIcons
     industrialIcons.click()
+
+def uploadIndustrialIcon():
+    # Find input file to upload the AR Object
+    uploadIndustrialIcon = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
+
+    # Locate the AR Object resource from absolute path
+    uploadIndustrialIcon.send_keys(os.getcwd() + '/' + 'Forbidden 01.png')
+
+    time.sleep(1)
+
+    # Clic on OK button to confirm the action
+    okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
+
+    okButton.click()
+
 login()
 time.sleep(3)
 createAccount()
