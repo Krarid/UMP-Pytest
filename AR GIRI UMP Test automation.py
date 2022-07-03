@@ -148,7 +148,7 @@ def deleteOrganization():
     time.sleep(1)
 
     # Locate Remove button
-    removeButton = driver.find_element(By.XPATH, "//button[@class='btn btn-danger']")
+    removeButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Remove')]")
 
     # Click on remove button
     removeButton.click()
