@@ -242,6 +242,12 @@ def uploadIndustrialIcon():
 
     okButton.click()
     
+def industrialIcons():
+    # Find the industrial icons tab by text
+    industrialIcons = driver.find_element(By.XPATH, "//a[contains(text(), 'Industrial Icons')]")
+
+    # Redirect to industrialIcons
+    industrialIcons.click()
 login()
 time.sleep(3)
 createAccount()
