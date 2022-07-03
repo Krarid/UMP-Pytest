@@ -4,6 +4,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import DesiredCapabilities
 import time
+import os
 
 #Bypass "Your connection is not private"
 options = webdriver.ChromeOptions()
@@ -226,8 +227,69 @@ def deleteARObject():
     dontDelete = driver.find_element(By.XPATH, "//div[@class='modal-content']/div[2]/button[2]")
     dontDelete.click()
 
+def uploadARObject():
+
+    # Find input file to upload the AR Object
+    uploadARObject = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
+
+    # Locate the AR Object resource from absolute path
+    uploadARObject.send_keys(os.getcwd() + '/' + 'wrench_ios')
+
+    time.sleep(1)
+
+    # Clic on OK button to confirm the action
+    okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
+
+    okButton.click()
+
+def industrialIcons():
+    # Find the industrial icons tab by text
+    industrialIcons = driver.find_element(By.XPATH, "//a[contains(text(), 'Industrial Icons')]")
+
+    # Redirect to industrialIcons
+    industrialIcons.click()
+
+def uploadIndustrialIcon():
+    # Find input file to upload the AR Object
+    uploadIndustrialIcon = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
+
+    # Locate the AR Object resource from absolute path
+    uploadIndustrialIcon.send_keys(os.getcwd() + '/' + 'Forbidden 01.png')
+
+    time.sleep(2)
+
+    # Clic on OK button to confirm the action
+    okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
+
+    okButton.click()
+
+def enableIndustrialIcon():
+
+    # Locate the toggle buton
+    toggleButtonList = driver.find_elements(By.XPATH, "//div/div[4]/label/span")
+
+    last = len(toggleButtonList) - 1
+    
+    # Click on the last toggle button
+    toggleButtonList[last].click()
+
+def deleteIndustrialIcon():
+    # Locate the trash buton
+    trashButtonList = driver.find_elements(By.XPATH, "//div/div[5]/img")
+
+    last = len(trashButtonList) - 1
+    
+    # Click on the last trash button
+    trashButtonList[last].click()
+
+    # Locate the Delete anyway
+    deleteButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Delete anyway')]")
+
+    # Click on Delete button
+    deleteButton.click()
+
 login()
-time.sleep(3)
+time.sleep(3)    
 createAccount()
 time.sleep(1)
 searchAccount()
@@ -253,3 +315,12 @@ activeARObject()
 time.sleep(1)
 deleteARObject()
 time.sleep(1)
+uploadARObject()
+time.sleep(1)
+industrialIcons()
+time.sleep(1)
+uploadIndustrialIcon()
+time.sleep(1)
+enableIndustrialIcon()
+time.sleep(1)
+deleteIndustrialIcon()
