@@ -30,7 +30,7 @@ def login(username = "iconsAdmin", password = "0000"):
     passwordTextField.send_keys(password)
 
     # Locate login button
-    loginButton = driver.find_element(By.XPATH, "//button")
+    loginButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Login')]")
 
     # Click on login button
     loginButton.click()
@@ -55,7 +55,7 @@ def createAccount(email = "javier.melendez@fyware.com", typeAccount="manager"):
     Select(select[1]).select_by_index(1)
 
     # Select Create button
-    createButton = driver.find_element(By.XPATH, "//div/div/div[2]/div[5]/button")
+    createButton = driver.find_element(By.XPATH, "//button[text()='Create']")
 
     # Click on Create button
     createButton.click()
@@ -76,7 +76,7 @@ def resetPassword():
     resetPasswordButton.click()
 
     # Locate cancel button on pop up
-    cancelButton = driver.find_element(By.XPATH, "//button[@data-dismiss='modal']")
+    cancelButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Cancel')]")
     cancelButton.click()
 
 def deleteAccount():
@@ -115,25 +115,23 @@ def createOrganization(organization = "Test", domain = "test.com"):
     time.sleep(1)
     
     # Locate Ok button on pop up
-    okButton = driver.find_element(By.XPATH, "//button[@data-dismiss='modal']")
+    okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
     okButton.click()
 
 def addWorkplaces():
 
-    # Locate button to add 10 workplaces
-    addWorkplaceButton = driver.find_elements(By.XPATH, "//div/div[4]/div/button")
+    # Locate the last button to add 10 workplaces
+    addWorkplaceButton = driver.find_elements(By.XPATH, "//button[contains(text(), 'Add 10')]")
 
     last = len(addWorkplaceButton) - 1
 
-    addWorkplaceButton[last].click()
-
     # Click on button to add 10 workplaces
-    # addWorkplaceButton.click()
+    addWorkplaceButton[last].click()
 
     time.sleep(1)
 
     # Locate Ok button on pop up
-    okButton = driver.find_element(By.XPATH, "//button[@data-dismiss='modal']")
+    okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
     okButton.click()
 
 def deleteOrganization():
@@ -162,7 +160,7 @@ def customizeGiriMobileApp():
 
 def createNewPattern(defaultLanguage = 0, pattern = [ ["Empty"], ["Falsch"], ["Ãœres"], ["Vacio"], ["Pusty"] ] ):
     # Locate the Create new Pattern button
-    createPatternButton = driver.find_element(By.XPATH, "//div/div/div[2]/div[4]/div/div[2]/div[2]/button")
+    createPatternButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Create new Pattern')]")
 
     # Click on button
     createPatternButton.click()
@@ -176,7 +174,7 @@ def createNewPattern(defaultLanguage = 0, pattern = [ ["Empty"], ["Falsch"], ["Ã
     radio.click()
 
     # Locate Add mediatitle button
-    mediatitleButton = driver.find_element(By.XPATH, "//button[text()=' + Add mediatitle ']")
+    mediatitleButton = driver.find_element(By.XPATH, "//button[contains(text(), '+ Add mediatitle')]")
 
     # Click on mediatitle Button
     for i in range( len(pattern[0]) - 1 ):
@@ -190,7 +188,7 @@ def createNewPattern(defaultLanguage = 0, pattern = [ ["Empty"], ["Falsch"], ["Ã
             mediatitleTextField.send_keys( pattern[i-1][j] )
 
     # Locate CONFIRM button
-    confirmButton = driver.find_element(By.XPATH, "//button[text()=' CONFIRM ']")
+    confirmButton = driver.find_element(By.XPATH, "//button[contains(text(), 'CONFIRM')]")
 
     # Click on CONFIRM button
     confirmButton.click()
