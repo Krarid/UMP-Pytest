@@ -241,7 +241,7 @@ def uploadARObject():
     okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
 
     okButton.click()
-    
+
 def industrialIcons():
     # Find the industrial icons tab by text
     industrialIcons = driver.find_element(By.XPATH, "//a[contains(text(), 'Industrial Icons')]")
@@ -273,8 +273,23 @@ def enableIndustrialIcon():
     # Click on the last toggle button
     toggleButtonList[last].click()
 
+def deleteIndustrialIcon():
+    # Locate the trash buton
+    trashButtonList = driver.find_elements(By.XPATH, "//div/div[5]/img")
+
+    last = len(trashButtonList) - 1
+    
+    # Click on the last trash button
+    trashButtonList[last].click()
+
+    # Locate the Delete anyway
+    deleteButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Delete anyway')]")
+
+    # Click on Delete button
+    deleteButton.click()
+
 login()
-time.sleep(3)
+time.sleep(3)    
 createAccount()
 time.sleep(1)
 searchAccount()
@@ -300,4 +315,12 @@ activeARObject()
 time.sleep(1)
 deleteARObject()
 time.sleep(1)
+uploadARObject()
+time.sleep(1)
+industrialIcons()
+time.sleep(1)
 uploadIndustrialIcon()
+time.sleep(1)
+enableIndustrialIcon()
+time.sleep(1)
+deleteIndustrialIcon()
