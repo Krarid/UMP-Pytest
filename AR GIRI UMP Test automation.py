@@ -230,10 +230,10 @@ def deleteARObject():
 def uploadARObject():
 
     # Find input file to upload the AR Object
-    uploadIcon = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
+    uploadARObject = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
 
     # Locate the AR Object resource from absolute path
-    uploadIcon.send_keys(os.getcwd() + '/' + 'wrench_ios')
+    uploadARObject.send_keys(os.getcwd() + '/' + 'wrench_ios')
 
     time.sleep(1)
 
