@@ -212,20 +212,21 @@ def activeARObject():
 
 def deleteARObject():
 
-    # Locate trash button
-    trashButton = driver.find_element(By.XPATH, "//div[2]/div[4]/img")
+    # Locate the trash buton
+    trashButtonList = driver.find_elements(By.XPATH, "//div/div[4]/img")
 
-    trashButton.click()
+    last = len(trashButtonList) - 1
+    
+    # Click on the last trash button
+    trashButtonList[last].click()
 
     time.sleep(1)
 
-    # Delete the icon
-    # deleteAnyway = driver.find_element(By.XPATH, "//div[@class='modal-content']/div[2]/button[1]")
-    # deleteAnyway.click()
+    # Locate the Delete anyway
+    deleteButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Delete anyway')]")
 
-    # Don't delete the icon
-    dontDelete = driver.find_element(By.XPATH, "//div[@class='modal-content']/div[2]/button[2]")
-    dontDelete.click()
+    # Click on Delete button
+    deleteButton.click()
 
 def uploadARObject():
 
@@ -313,9 +314,9 @@ ARObjects()
 time.sleep(1)
 activeARObject()
 time.sleep(1)
-deleteARObject()
-time.sleep(1)
 uploadARObject()
+time.sleep(1)
+deleteARObject()
 time.sleep(1)
 industrialIcons()
 time.sleep(1)
