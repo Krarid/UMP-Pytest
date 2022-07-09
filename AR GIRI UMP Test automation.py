@@ -6,12 +6,6 @@ from selenium.webdriver import DesiredCapabilities
 import time
 import os
 
-options = webdriver.ChromeOptions()
-options.add_argument('--allow-insecure-localhost') # differ on driver version. can ignore. 
-caps = options.to_capabilities()
-caps["acceptInsecureCerts"] = True
-driver = webdriver.Chrome(desired_capabilities=caps)
-
 class UMPAutomation:
 
     # Properties
@@ -23,10 +17,22 @@ class UMPAutomation:
     organization = "Test"
     domain = "test.com"
     defaultLanguage = 0
-    pattern = [ ["Empty", "Hola", "Adios", "QA"], ["Falsch", "Hola", "Adios", "QA"], ["Üres", "Hola", "Adios", "QA"], ["Vacio", "Hola", "Adios", "QA"], ["Pusty", "Hola", "Adios", "QA"] ]
+    pattern = [ ["Empty", "Hola", "Adios", "QA"], ["Falsch", "Hola", "Adios", "QA"], ["Üres", "Hola", "Adios", "QA"], \
+                ["Vacio", "Hola", "Adios", "QA"], ["Pusty", "Hola", "Adios", "QA"] ]
+    arObject = "wrench_ios"
+    industrialIcon = "Forbidden 01.png"
+
+    def __init__(self):
+        options = webdriver.ChromeOptions()
+        options.add_argument('--allow-insecure-localhost') # differ on driver version. can ignore. 
+        caps = options.to_capabilities()
+        caps["acceptInsecureCerts"] = True
+        global driver
+        driver = webdriver.Chrome(desired_capabilities=caps)
     
     def openChromeBrowser(self):
         driver.get(self.url)
+        driver.maximize_window()
 
     def login(self):
         # Locate username textfield
@@ -46,6 +52,15 @@ class UMPAutomation:
 
         # Click on login button
         loginButton.click()
+
+        time.sleep(3)
+
+        try:
+            driver.find_element(By.XPATH, "//h3[contains(text(), 'User Management')]")
+        except:
+            return False
+
+        return True
 
     def createAccount(self):
 
@@ -72,6 +87,15 @@ class UMPAutomation:
         # Click on Create button
         createButton.click()
 
+        time.sleep(1)
+
+        try:
+            driver.find_element(By.XPATH, "//h5[contains(text(), 'Error while creating the user')]")
+        except:
+            return True
+
+        return False
+
     def searchAccount(self):
 
         # Locate search textfield
@@ -79,6 +103,15 @@ class UMPAutomation:
 
         # Send email
         searchTextField.send_keys(self.email + Keys.ENTER)
+
+        time.sleep(2)
+        
+        try:
+            driver.find_element(By.XPATH, "//div[@index=0]/div/div[1]/p[text()='" + self.email + "']")
+        except:
+            return False
+
+        return True
 
     def resetPassword(self):
         # Locate reset button
@@ -88,8 +121,13 @@ class UMPAutomation:
         resetPasswordButton.click()
 
         # Locate cancel button on pop up
-        cancelButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Cancel')]")
-        cancelButton.click()
+        try:
+            cancelButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Cancel')]")
+            cancelButton.click()
+        except:
+            return False
+
+        return True
 
     def deleteAccount(self):
         # Locate trash button
@@ -97,6 +135,16 @@ class UMPAutomation:
 
         # Click on trash button
         trashButton.click()
+
+        time.sleep(1)
+
+        try:
+            self.searchAccount()
+            driver.find_element(By.XPATH, "//div[@index=0]/div/div[1]/p[text()='" + self.email + "']")
+        except:
+            return True
+
+        return False
 
     def organizationManagement(self):
         # Locate Organization Management tab
@@ -124,11 +172,16 @@ class UMPAutomation:
         # Click on create organization
         createOrganization.click()
 
-        time.sleep(1)
-        
-        # Locate Ok button on pop up
-        okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
-        okButton.click()
+        time.sleep(2)
+
+        try:
+            # Locate Ok button on pop up
+            okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
+            okButton.click()
+        except:
+            return False
+
+        return True
 
     def addWorkplaces(self):
 
@@ -142,9 +195,14 @@ class UMPAutomation:
 
         time.sleep(1)
 
-        # Locate Ok button on pop up
-        okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
-        okButton.click()
+        try:
+            # Locate Ok button on pop up
+            okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
+            okButton.click()
+        except:
+            return False
+
+        return True
 
     def deleteOrganization(self):
         # Locate trash button
@@ -162,6 +220,15 @@ class UMPAutomation:
 
         # Click on remove button
         removeButton.click()
+
+        time.sleep(3)
+     
+        lastOrganization = driver.find_elements(By.XPATH, "//div[3]/div[1]/div/div/div/div[1]/p")
+        last = len(lastOrganization) - 1
+            
+        deleted = True if lastOrganization[last].text not in test.organization else False
+
+        return deleted
 
     def customizeGiriMobileApp(self):
         # Locate Organization Management tab
@@ -205,6 +272,15 @@ class UMPAutomation:
         # Click on CONFIRM button
         confirmButton.click()
 
+        time.sleep(5)
+
+        try:
+            pattern = driver.find_element(By.XPATH, "//p[text()='" + self.pattern[0][0] + " - " + self.pattern[0][1] + " - " + self.pattern[0][2] + " - " + self.pattern[0][3] + "']")
+        except:
+            return False
+
+        return True
+
     def ARObjects(self):
         # Locate the ARObjects tab
         arObjects = driver.find_element(By.XPATH, "//a[contains(text(), 'AR Objects')]")
@@ -240,20 +316,38 @@ class UMPAutomation:
         # Click on Delete button
         deleteButton.click()
 
+        time.sleep(3)
+
+        lastSymbol = driver.find_elements(By.XPATH, "//div/div[@class='col-3 text-break']")
+        last = len(lastSymbol) - 1
+
+        deleted = True if lastSymbol[last].text not in test.arObject else False
+
+        return deleted
+
     def uploadARObject(self):
 
         # Find input file to upload the AR Object
         uploadARObject = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
 
         # Locate the AR Object resource from absolute path
-        uploadARObject.send_keys(os.getcwd() + '/' + 'wrench_ios')
+        uploadARObject.send_keys(os.getcwd() + '/' + self.arObject)
 
         time.sleep(1)
+
+        uploaded = True
+
+        try:
+            driver.find_element(By.XPATH, "//h4[contains(text(), 'The files were uploaded successfully')]")
+        except:
+            uploaded = False
 
         # Clic on OK button to confirm the action
         okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
 
         okButton.click()
+
+        return uploaded
 
     def industrialIcons(self):
         # Find the industrial icons tab by text
@@ -267,14 +361,23 @@ class UMPAutomation:
         uploadIndustrialIcon = driver.find_element(By.XPATH, "//input[@id='assetsFieldHandle']")
 
         # Locate the AR Object resource from absolute path
-        uploadIndustrialIcon.send_keys(os.getcwd() + '/' + 'Forbidden 01.png')
+        uploadIndustrialIcon.send_keys(os.getcwd() + '/' + self.industrialIcon)
 
         time.sleep(2)
+
+        uploaded = True
+
+        try:
+            driver.find_element(By.XPATH, "//h4[contains(text(), 'The files were uploaded successfully')]")
+        except:
+            uploaded = False
 
         # Clic on OK button to confirm the action
         okButton = driver.find_element(By.XPATH, "//button[contains(text(), 'Ok')]")
 
         okButton.click()
+
+        return uploaded
 
     def enableIndustrialIcon(self):
 
@@ -301,61 +404,76 @@ class UMPAutomation:
         # Click on Delete button
         deleteButton.click()
 
+        time.sleep(3)
+
+        lastIcon = driver.find_elements(By.XPATH, "//div[@class='col-3 text-break '][1]/p")
+        last = len(lastIcon) - 1
+
+        deleted = True if lastIcon[last].text not in test.industrialIcon else False
+
+        return deleted
+        
 test = UMPAutomation()
 
-test.openChromeBrowser()
+def test_open_browser():
+    test.openChromeBrowser()
 
-test.login()
-time.sleep(3)
+    assert driver.title == "Giri User Management Dashboard"
 
-test.createAccount()
-time.sleep(1)
+def test_login():
+    assert test.login()
 
-test.searchAccount()
-time.sleep(2)
+def test_create_account():
+    assert test.createAccount()
 
-test.resetPassword()
-time.sleep(1)
+def test_search_account():
+    assert test.searchAccount()
 
-test.deleteAccount()
-time.sleep(1)
+def test_reset_password():
+    assert test.resetPassword()
 
-test.organizationManagement()
-time.sleep(1)
+def test_delete_account():
+    assert test.deleteAccount()
 
-test.createOrganization()
-time.sleep(1)
+def test_organization_management():
+    test.organizationManagement()
 
-test.addWorkplaces()
-time.sleep(1)
+def test_create_organization():
+    assert test.createOrganization()
 
-test.deleteOrganization()
-time.sleep(1)
+def test_add_workplaces():
+    assert test.addWorkplaces()
 
-test.customizeGiriMobileApp()
-time.sleep(1)
+def test_delete_oganization():
+    assert test.deleteOrganization()
 
-test.createNewPattern()
+def test_customize_giriMobileApp():
+    test.customizeGiriMobileApp()
+    time.sleep(1)
 
-test.ARObjects()
-time.sleep(1)
+def test_create_new_pattern():
+    assert test.createNewPattern()
 
-test.uploadARObject()
-time.sleep(1)
+def test_ar_objects():
+    test.ARObjects()
 
-test.deleteARObject()
-time.sleep(1)
+def test_upload_AR_Object():
+    assert test.uploadARObject()
 
-test.enableARObject()
-time.sleep(1)
+def test_delete_AR_Object():
+    assert test.deleteARObject()
 
-test.industrialIcons()
-time.sleep(1)
+def test_enable_AR_Object():
+    test.enableARObject()
 
-test.uploadIndustrialIcon()
-time.sleep(1)
+def test_industrial_icons():
+    test.industrialIcons()
 
-test.enableIndustrialIcon()
-time.sleep(1)
+def test_upload_industrial_icon():
+    assert test.uploadIndustrialIcon()
 
-test.deleteIndustrialIcon()
+def test_enable_industrial_icon():
+    test.enableIndustrialIcon()
+
+def test_delete_industrial_icon():
+    assert test.deleteIndustrialIcon()
