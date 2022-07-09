@@ -1,2 +1,2 @@
 # AR-GIRI-UMP-Test-automation
-Automation of ar-giri.rocks UMP using Selenium via Python scripts
+Automation of UMP from GIRI using Selenium via Python scripts and Pytest as framework
